@@ -1,6 +1,5 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import { connectDB } from '@/utils/database'
 
-export default function Home() {
-  return asd
+export default async function Home() {
+  return <div></div>
 }
