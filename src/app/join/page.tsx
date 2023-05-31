@@ -1,8 +1,8 @@
-const Write = () => {
+const Join = () => {
   return (
-    <div>
-      <h4>글작성</h4>
-      <form action="/api/post/new" method="POST">
+    <div className="join-container">
+      <h4>회원가입</h4>
+      <form action="/api/join/joinMember" method="POST">
         <input name="title" placeholder="contents title" />
         <input name="contents" placeholder="contetns" />
         <button type="submit">버튼</button>
@@ -11,4 +11,4 @@ const Write = () => {
   )
 }
 
-export default Write
+export default Join
