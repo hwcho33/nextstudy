@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 import DetailLink from './DetailLink'
+import { Router } from 'next/router'
 
 const ListItem = ({ result }) => {
   return (
@@ -18,12 +19,22 @@ const ListItem = ({ result }) => {
               수정
             </Link>
             <span
-              onClick={() => {
-                console.log(item._id)
+              onClick={e => {
+                console.log(typeof item._id)
                 fetch('/api/post/delete', {
-                  method: 'DELETE',
+                  method: 'POST',
                   body: item._id,
                 })
+                  .then(res => {
+                    return res.json()
+                  })
+                  .then(res => {
+                    e.target.parentElement.style.opacity = 0
+                    setTimeout(() => {
+                      e.target.parentElement.style.display = 'none'
+                    }, 1000)
+                  })
+                // fetch('/api/test/eoke')
               }}
             >
               삭제

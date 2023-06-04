@@ -22,6 +22,11 @@
   background: rgb(249, 250, 255);
   padding: 10px;
 }
+
+.list-item {
+  opacity: 1;
+  transition: all 1s;
+} 
 .list-item {
   background: white;
   border-radius: 10px;
