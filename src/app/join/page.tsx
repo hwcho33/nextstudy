@@ -2,11 +2,14 @@ const Join = () => {
   return (
     <div className="join-container">
       <h4>회원가입</h4>
-      <form action="/api/join/joinMember" method="POST">
-        <input name="title" placeholder="contents title" />
-        <input name="contents" placeholder="contetns" />
-        <button type="submit">버튼</button>
-      </form>
+      <div>
+        <form method="POST" action="/api/auth/signup">
+          <input name="name" type="text" placeholder="이름" />
+          <input name="email" type="text" placeholder="이메일" />
+          <input name="password" type="password" placeholder="비번" />
+          <button type="submit">id/pw 가입요청</button>
+        </form>
+      </div>
     </div>
   )
 }
