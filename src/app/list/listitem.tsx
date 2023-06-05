@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import DetailLink from './DetailLink'
 import { Router } from 'next/router'
 
-const ListItem = ({ result }) => {
+const ListItem = ({ result, isAdmin }) => {
   return (
     <div>
       {result.map((item, index) => {
@@ -18,27 +18,32 @@ const ListItem = ({ result }) => {
             <Link prefetch={false} href={`edit/${item._id}`}>
               수정
             </Link>
-            <span
-              onClick={e => {
-                console.log(typeof item._id)
-                fetch('/api/post/delete', {
-                  method: 'POST',
-                  body: item._id,
-                })
-                  .then(res => {
-                    return res.json()
+            {isAdmin ? (
+              <span
+                onClick={e => {
+                  console.log(typeof item._id)
+                  fetch('/api/post/delete', {
+                    method: 'POST',
+                    body: item._id,
                   })
-                  .then(res => {
-                    e.target.parentElement.style.opacity = 0
-                    setTimeout(() => {
-                      e.target.parentElement.style.display = 'none'
-                    }, 1000)
-                  })
-                // fetch('/api/test/eoke')
-              }}
-            >
-              삭제
-            </span>
+                    .then(res => {
+                      return res.json()
+                    })
+                    .then(res => {
+                      e.target.parentElement.style.opacity = 0
+                      setTimeout(() => {
+                        e.target.parentElement.style.display = 'none'
+                      }, 1000)
+                    })
+                  // fetch('/api/test/eoke')
+                }}
+              >
+                삭제
+              </span>
+            ) : (
+              <></>
+            )}
+
             <p>{item.content}</p>
           </div>
         )

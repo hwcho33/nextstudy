@@ -1,5 +1,6 @@
 import { connectDB } from '@/utils/database'
 import { ObjectId } from 'mongodb'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
 
 export default async function handler(request, response) {
   if (request.method === 'POST') {
@@ -8,7 +9,7 @@ export default async function handler(request, response) {
     const result = await db
       .collection('post')
       .deleteOne({ _id: new ObjectId(request.body) })
-    console.log(result)
+
     return response.status(200).json(result)
   }
 }
