@@ -11,5 +11,5 @@ export default async function handler(request, response) {
     .find({ parent: new ObjectId(data.id) })
     .toArray()
   console.log(result)
-  response.status(200).json(result)
+  response.status(200).json({ body: result })
 }

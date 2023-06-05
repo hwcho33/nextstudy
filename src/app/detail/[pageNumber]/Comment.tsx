@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 const Comment = ({ id }) => {
   const [comment, setComment] = useState('')
+  const [list, setList] = useState([])
   const getComment = async parentId => {
     // const db = (await connectDB).db('next')
     // const result = await db
@@ -15,16 +16,24 @@ const Comment = ({ id }) => {
     fetch('/api/comment/getComment', {
       method: 'POST',
       body: JSON.stringify({ id }),
-    }).then(res => {
-      console.log('rest : ', res)
     })
+      .then(res => {
+        return res.json()
+      })
+      .then(response => {
+        setList(response.body)
+      })
   }
   useEffect(() => {
     getComment(id)
   }, [])
   return (
     <div>
-      <div></div>
+      <div>
+        {list.map((item, index) => {
+          return <p key={index}>{item.comment}</p>
+        })}
+      </div>
       <input
         onChange={e => {
           setComment(e.target.value)
