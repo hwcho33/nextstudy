@@ -4,8 +4,8 @@ import LoginBtn from './loginButton'
 import { Inter } from 'next/font/google'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
-import { use } from 'react'
-
+import DarkMode from './darkMode'
+import { cookies } from 'next/headers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -19,12 +19,17 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions)
-  // console.log(session)
+  const cookie = cookies().get('mode')
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={
+          cookie != undefined && cookie.value === 'dark' ? 'dark-mode' : ''
+        }
+      >
         {session?.user ? <p>ID : {session?.user.name}</p> : ''}
+        <DarkMode />
         <div className="navbar">
           <div className="linkWrapper">
             <Link href="/">홈</Link>

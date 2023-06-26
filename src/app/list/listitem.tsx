@@ -21,7 +21,6 @@ const ListItem = ({ result, isAdmin }) => {
             {isAdmin ? (
               <span
                 onClick={e => {
-                  console.log(typeof item._id)
                   fetch('/api/post/delete', {
                     method: 'POST',
                     body: item._id,

@@ -17,7 +17,7 @@ const Detail = async (props: any) => {
   return (
     <div>
       <h4>상세 페이지</h4>
-      <h4>{result.title}</h4>
+      <h4>{result.titlde}</h4>
       <p>{result.content}</p>
       <Comment id={props.params.pageNumber} />
     </div>

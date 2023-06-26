@@ -2,37 +2,36 @@
 
 import { connectDB } from '@/utils/database'
 import { ObjectId } from 'mongodb'
+
 import { useEffect, useState } from 'react'
 
 const Comment = ({ id }) => {
   const [comment, setComment] = useState('')
   const [list, setList] = useState([])
   const getComment = async parentId => {
-    // const db = (await connectDB).db('next')
-    // const result = await db
-    //   .collection('comment')
-    //   .find({ _id: new ObjectId(parentId) })
-    //   .toArray()
-    fetch('/api/comment/getComment', {
-      method: 'POST',
-      body: JSON.stringify({ id }),
-    })
+    fetch('/api/comment/getComment?id=' + parentId)
       .then(res => {
         return res.json()
       })
       .then(response => {
+        console.log(response)
         setList(response.body)
       })
   }
+
   useEffect(() => {
     getComment(id)
   }, [])
+
   return (
     <div>
+      <hr></hr>
       <div>
-        {list.map((item, index) => {
-          return <p key={index}>{item.comment}</p>
-        })}
+        {list.length > 0
+          ? list.map((item, index) => {
+              return <p key={index}>{item.comment}</p>
+            })
+          : '로딩중'}
       </div>
       <input
         onChange={e => {
@@ -45,6 +44,10 @@ const Comment = ({ id }) => {
             method: 'POST',
             body: JSON.stringify({ parent: id, comment: comment }),
           })
+            .then(r => r.json())
+            .then(result => {
+              setList(result)
+            })
         }}
       >
         댓글쓰기

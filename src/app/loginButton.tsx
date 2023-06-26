@@ -2,8 +2,6 @@
 
 import { signIn, signOut } from 'next-auth/react'
 const LoginBtn = ({ userInfo }) => {
-  console.log(userInfo)
-
   return (
     <button
       onClick={() => {
