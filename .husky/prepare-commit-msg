@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+COMMIT_EDITMSG = $1
+
+setIssueNumber() {
+    NAME = $(git branch | grep '*' | sed 's/* //')
+    ISSUE_NUMBER = `echo $NAME | cut -d '-' -f1`
+    DESCRIPTION = $(git config branch. "$NAME".description)
+    echo "[#ISSUE_NUMBER] $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
+    if [ -n "$DESCRIPTION"]
+    then
+        echo "" >> $COMMIT_EDITMSG
+        echo $DESCRIPTION >> $COMMIT_EDITMSG
+    fi
+}
+
+MERGE=$(cate $COMMIT_EDITMSG|grep -i 'merge'|wc -l)
+
+if [$MERGE -eq 0]; then
+    setIssueNumber
+fi
