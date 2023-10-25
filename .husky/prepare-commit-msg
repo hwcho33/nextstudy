@@ -3,21 +3,16 @@
 
 COMMIT_EDITMSG=$1
 
-setIssueNumber() {
-    NAME = $(git branch | grep '*' | sed 's/* //')
-    echo `NAME : $NAME`
-    ISSUE_NUMBER = `echo $NAME | cut -d '-' -f1`
-    DESCRIPTION = $(git config branch. "$NAME".description)
-    echo "[#ISSUE_NUMBER] $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
-    if [ -n "$DESCRIPTION"]
-    then
-        echo "" >> $COMMIT_EDITMSG
-        echo $DESCRIPTION >> $COMMIT_EDITMSG
-    fi
+addBranchNumber() {
+    
+  NAME=$(git branch | grep '*' | sed 's/* //' | sed 's/^.*\///') 
+  ISSUE_NUMBER=`echo $NAME | cut -d '-' -f1`
+
+  echo "[$NAME] $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
 }
 
-MERGE=$(cate $COMMIT_EDITMSG|grep -i 'merge'|wc -l)
+MERGE=$(cat $COMMIT_EDITMSG|grep -i 'merge'|wc -l)
 
-if [$MERGE -eq 0]; then
-    setIssueNumber
+if [ $MERGE -eq 0 ] ; then
+  addBranchNumber
 fi
