@@ -7,8 +7,7 @@ addBranchNumber() {
     
   NAME=$(git branch | grep '*' | sed 's/* //' | sed 's/^.*\///') 
   ISSUE_NUMBER=`echo $NAME | cut -d '-' -f1`
-
-  echo "[$NAME] $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
+  echo "[#$ISSUE_NUMBER] $(cat $COMMIT_EDITMSG)" > $COMMIT_EDITMSG
 }
 
 MERGE=$(cat $COMMIT_EDITMSG|grep -i 'merge'|wc -l)
