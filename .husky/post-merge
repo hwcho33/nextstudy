@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 echo "Feature branch merged into develop. Running automation..."
-echo "husky $HUSKY_GIT_STDIN"
-if [ "$HUSKY_GIT_STDIN" == "refs/heads/develop" ]; then
+echo "husky $1"
+if [ "$1" = "refs/heads/develop"  ]; then
   echo "Feature branch merged into develop. Running automation..."
 
   # 여기에 원하는 작업을 추가합니다.
