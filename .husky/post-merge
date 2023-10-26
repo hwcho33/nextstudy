@@ -1,15 +1,21 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+# 색상 코드
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
 BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 
-echo "Current Branch Name"
-echo "====================================="
-echo "$BRANCH_NAME"
-echo "====================================="
+echo "${BOLD}Current Branch Name"
+echo "${BOLD}====================================="
+echo "${BOLD}$BRANCH_NAME"
+echo "${BOLD}====================================="
 
 if [ "$BRANCH_NAME" = "develop"  ]; then
-  echo "Feature branch merged into develop. Running automation..."
+  echo "${RED}Feature branch merged into develop. Running automation..."
 
   # 여기에 원하는 작업을 추가합니다.
   # 예: 빌드 실행, 푸시, 머지 등
@@ -19,20 +25,9 @@ if [ "$BRANCH_NAME" = "develop"  ]; then
   pnpm build  # 또는 적절한 빌드 명령어
 
   if [ $? -eq 0 ]; then
-    echo "Build successful. Pushing to develop..."
+    echo "${GREEN}Build successful. Pushing to develop..."
     git push origin develop
-
-    # develop 브랜치로부터 main 브랜치로 머지
-    git checkout main
-    git merge develop
-
-    if [ $? -eq 0 ]; then
-      echo "Merge into main successful. Pushing to main..."
-      git push origin main
-    else
-      echo "Merge into main failed. Aborting the push to main."
-    fi
   else
-    echo "Build failed. Aborting the push to develop."
+    echo "${RED}Build failed. Aborting the push to develop."
   fi
 fi
