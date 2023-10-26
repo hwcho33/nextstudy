@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-
+echo "Feature branch merged into develop. Running automation..."
 if [ "$HUSKY_GIT_STDIN" == "refs/heads/develop" ]; then
   echo "Feature branch merged into develop. Running automation..."
 
