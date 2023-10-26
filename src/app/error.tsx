@@ -1,16 +1,9 @@
 'use client'
 
-const Error = ({ error, reset }) => {
-  console.log(error)
+const Error = () => {
   return (
     <div>
-      <button
-        onClick={() => {
-          reset()
-        }}
-      >
-        버튼
-      </button>
+      <button>버튼</button>
     </div>
   )
 }

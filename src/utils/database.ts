@@ -5,6 +5,4 @@ interface OverridingGlobalType extends Global {
   _mongo: Promise<MongoClient>
 }
 
-declare const global: OverridingGlobalType
-
 export { connectDB }

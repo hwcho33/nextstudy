@@ -1,7 +1,14 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-if [ "$HUSKY_GIT_STDIN" == "refs/heads/develop" ]; then
+BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+
+echo "Current Branch Name"
+echo "====================================="
+echo "$BRANCH_NAME"
+echo "====================================="
+
+if [ "$BRANCH_NAME" = "develop"  ]; then
   echo "Feature branch merged into develop. Running automation..."
 
   # 여기에 원하는 작업을 추가합니다.
