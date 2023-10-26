@@ -1,17 +1,11 @@
 import { connectDB } from '../../../utils/database'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import NextAuth from 'next-auth'
-import GithubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt'
 
 export const authOptions = {
   providers: [
-    GithubProvider({
-      clientId: '0750cb1e4b67d9b90c65',
-      clientSecret: '35cb9dc697efccf5c4ec3944ae9cf324a49708fe',
-    }),
-
     CredentialsProvider({
       //1. 로그인페이지 폼 자동생성해주는 코드
       name: 'credentials',
