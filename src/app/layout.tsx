@@ -1,12 +1,6 @@
 import './globals.css'
-import Link from 'next/link'
-import LoginBtn from './loginButton'
-import { Inter } from 'next/font/google'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
-import DarkMode from './darkMode'
+
 import { cookies } from 'next/headers'
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,7 +12,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions)
   const cookie = cookies().get('mode')
 
   return (
@@ -28,20 +21,6 @@ export default async function RootLayout({
           cookie != undefined && cookie.value === 'dark' ? 'dark-mode' : ''
         }
       >
-        {session?.user ? <p>ID : {session?.user.name}</p> : ''}
-        <DarkMode />
-        <div className="navbar">
-          <div className="linkWrapper">
-            <Link href="/">홈</Link>
-          </div>
-          <LoginBtn userInfo={session?.user} />
-          <div className="linkWrapper">
-            <Link href="/list">List</Link>
-          </div>
-          <div className="linkWrapper">
-            <Link href="/join">회원가입</Link>
-          </div>
-        </div>
         {children}
       </body>
     </html>

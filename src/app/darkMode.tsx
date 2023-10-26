@@ -6,10 +6,9 @@ import { useRouter } from 'next/navigation'
 const DarkMode = () => {
   const router = useRouter()
   const [isDark, setIsDark] = useState(false)
-  let cookie = ''
+  const cookie = ''
 
   useEffect(() => {
-    cookie = ('; ' + document.cookie).split('; mode=').pop()?.split(';')[0]
     console.log('pushtes3334')
     if (cookie === '') {
       document.cookie = 'mode=light; max-age=' + 3600 * 24 * 400
