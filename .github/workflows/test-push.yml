@@ -43,7 +43,7 @@ jobs:
 
         if: ${{ failure() }}
 
-        uses: ./.github/actions/slack-notify
+        uses: .github/actions/slack-notify
 
         with:
           slack_incoming_url: ${{ secrets.SLACK_INCOMING_URL }}
@@ -51,7 +51,7 @@ jobs:
       - name: Send slack if completed
 
         if: ${{ success() }}
-        uses: ./.github/actions/slack-notify
+        uses: .github/actions/slack-notify
 
         with:
           status: success
