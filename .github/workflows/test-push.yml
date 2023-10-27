@@ -8,7 +8,15 @@ jobs:
   test:
     name: Test build
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_URL }}
     steps:
+      - uses: act10ns/slack@v2
+        with:
+          status: starting
+          channel: '#workflows'
+          message: Starting Docker Build and Push...
+        if: always()
       - uses: actions/checkout@v3
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -39,33 +47,9 @@ jobs:
 
         if: ${{ always() }}
 
-      - name: Send slack when failed
-
-        if: ${{ failure() }}
-
-        uses: ./.github/slack-notify
-
+      - uses: act10ns/slack@v2
         with:
-          slack_incoming_url: ${{ secrets.SLACK_INCOMING_URL }}
-
-      - name: Send custom JSON data to Slack workflow
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          # For posting a rich message using Block Kit
-          payload: |
-            {
-              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#workflows'
+        if: always()
