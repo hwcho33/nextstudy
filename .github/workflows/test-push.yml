@@ -15,7 +15,7 @@ jobs:
         with:
           status: starting
           channel: '#workflows'
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
           message: Starting Docker Build and Push...
         if: always()
       - uses: actions/checkout@v3
@@ -52,6 +52,6 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
           channel: '#workflows'
         if: always()
