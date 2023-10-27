@@ -48,11 +48,24 @@ jobs:
         with:
           slack_incoming_url: ${{ secrets.SLACK_INCOMING_URL }}
 
-      - name: Send slack if completed
-
-        if: ${{ success() }}
-        uses: ./.github/slack-notify
-
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
         with:
-          status: success
-          slack_incoming_url: ${{ secrets.SLACK_INCOMING_URL }}
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
