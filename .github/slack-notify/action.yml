@@ -43,5 +43,8 @@ runs:
         # 바로 클릭해서 GitHub 페이지를 띄워보고싶거든요.
         MSG="{ \"text\":\">${EMOTICON} workflow (<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|${GITHUB_WORKFLOW}>) in <https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>\n><https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks|${GITHUB_JOB}> job ${{ inputs.status }}, branch=\`${GITHUB_REF#refs/heads/}\`\"}"
 
+        MSG2 = {
+          "text": ">${EMOTICON} workflow (<https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|${GITHUB_WORKFLOW}>) in <https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>\n><https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks|${GITHUB_JOB}> job ${{ inputs.status }}, branch=${GITHUB_REF#refs/heads/}"
+        }
         # input으로 받은 slack_incoming_url와 MSG를 실어서 보내줍니다. 그러면 슬랙으로 알람이 오겠죠?
-        curl -X POST -H 'Content-type: application/json' --data "${MSG}" "${{ inputs.slack_incoming_url }}"
+        curl -X POST -H 'Content-type: application/json' --data "${MSG2}" "${{ inputs.slack_incoming_url }}"
