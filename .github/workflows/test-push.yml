@@ -1,18 +1,17 @@
 # test.yml
 
-name: "test-push"
+name: "Automation CI/CD WorkFlow"
 
 on: push
 
 jobs:
   test:
-    name: Test build
+    name: Check Test, Lint, Type, Build
     runs-on: ubuntu-latest
     steps:
       - uses: act10ns/slack@v2
         with:
           status: starting
-          channel: "#workflows"
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
           message: Starting Docker Build and Push...
         if: always()
@@ -21,10 +20,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-versions: ${{ secrets.NODE_VERSION }}
-
       - name: Cache node modules
         uses: actions/cache@v2
-
         id: cache
         with:
           path: node_modules
