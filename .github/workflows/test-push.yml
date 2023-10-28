@@ -32,7 +32,7 @@ jobs:
         if: ${{ always() }}
 
       - run: npm run tsc
-        id: Type Check
+        id: TypeCheck
         if: ${{ always() }}
 
       - run: npm run build
