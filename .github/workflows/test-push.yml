@@ -9,12 +9,6 @@ jobs:
     name: Test build
     runs-on: ubuntu-latest
     steps:
-      - uses: act10ns/slack@v2
-        with:
-          status: starting
-          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          message: Starting Docker Build and Push...
-        if: always()
       - uses: actions/checkout@v3
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -44,11 +38,9 @@ jobs:
       - run: npm run build
 
         if: ${{ always() }}
-    - uses: act10ns/slack@v2
+      - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
         if: always()
-
-     
