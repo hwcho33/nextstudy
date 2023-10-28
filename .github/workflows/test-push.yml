@@ -9,10 +9,9 @@ jobs:
     name: Test build
     runs-on: ubuntu-latest
     steps:
-          - uses: act10ns/slack@v2
+      - uses: act10ns/slack@v2
         with:
           status: starting
-          channel: '#workflows'
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
           message: Starting Docker Build and Push...
         if: always()
@@ -49,7 +48,6 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          channel: '#workflows'
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
         if: always()
 
