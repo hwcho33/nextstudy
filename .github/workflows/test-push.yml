@@ -28,19 +28,19 @@ jobs:
         run: npm install
 
       - run: npm run lint
-
+        id: Lint
         if: ${{ always() }}
 
       - run: npm run tsc
-
+        id: Type Check
         if: ${{ always() }}
 
       - run: npm run build
-
+        id: Build
         if: ${{ always() }}
       - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-        if: always()
+          if: always()
