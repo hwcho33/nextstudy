@@ -9,7 +9,7 @@ const DarkMode = () => {
   const cookie = ''
 
   useEffect(() => {
-    console.log('pus1htes33445')
+    console.log('pus1htes334454')
     if (cookie === '') {
       document.cookie = 'mode=light; max-age=' + 3600 * 24 * 400
     }
