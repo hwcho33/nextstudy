@@ -2,7 +2,9 @@
 
 name: "Automation CI/CD WorkFlow"
 
-on: push
+on:
+  push:
+    branches: [develop]
 
 jobs:
   test:
