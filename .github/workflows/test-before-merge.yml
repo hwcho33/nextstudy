@@ -29,15 +29,15 @@ jobs:
         run: npm install
 
       - run: npm run lint
-        id: Lint Check
+        id: Lint 
         if: ${{ always() }}
 
       - run: npm run tsc
-        id: Type Check
+        id: Type
         if: ${{ always() }}
 
       - run: npm run build
-        id: Build Check
+        id: Build
         if: ${{ always() }}
         
       - uses: act10ns/slack@v2
