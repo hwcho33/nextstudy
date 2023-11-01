@@ -4,8 +4,7 @@ name: "Deploy Vercel"
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build-test:
@@ -17,5 +16,21 @@ jobs:
           status: starting
           channel: '#workflows'
           message: Starting Docker Build and Push...
+          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
+        if: always()
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy to Vercel Action
+        uses: BetaHuhn/deploy-to-vercel-action@latest
+        with:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - uses: act10ns/slack@v2
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: "#workflows"
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
         if: always()
