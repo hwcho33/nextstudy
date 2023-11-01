@@ -1,0 +1,21 @@
+# deploy.yml
+
+name: "Deploy Vercel"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    name: Build 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: act10ns/slack@v2
+        with:
+          status: starting
+          channel: '#workflows'
+          message: Starting Docker Build and Push...
+          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
+        if: always()
