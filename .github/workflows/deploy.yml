@@ -16,7 +16,7 @@ jobs:
       - name: Install Pnpm global
         run: npm i -g pnpm
       - name: Install Pnpm global
-        run: npm i -g pnpm
+        run: pnpm setup
       - name: Install Dependencies
         run: pnpm install 
       - name: Install Vercel CLI
