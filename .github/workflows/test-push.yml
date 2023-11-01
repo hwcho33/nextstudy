@@ -36,6 +36,7 @@ jobs:
       - run: npm run build
         id: Build
         if: ${{ always() }}
+        
       - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
