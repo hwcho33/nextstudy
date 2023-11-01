@@ -35,8 +35,6 @@ elif [ "$BRANCH_NAME" = "main" ]; then
     # main 브렌치에 Merge 되었을때
     echo "${BOLD}Develop merged into $BRANCH_NAME. Running automation...${RESET}"
 
-    git push origin main
-
     echo "${BLUE}Automation for main branch push Complete.${RESET}"
   else
     echo "${RED}Push Failed. Aborting the push to develop${RESET}"
