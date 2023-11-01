@@ -27,7 +27,6 @@ if [ "$BRANCH_NAME" = "develop"  ]; then
     echo "${BLUE}Build successful. Pushing to develop...${RESET}"
     git push origin develop
 
-
   else
     echo "${RED}Build failed. Aborting the push to develop."
   fi
