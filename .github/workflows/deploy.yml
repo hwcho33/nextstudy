@@ -1,32 +1,26 @@
 # deploy.yml
 
-name: "Deploy Vercel"
-
+name: "Vercel Production Deployment"
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on:
   push:
     branches: [main]
 
 jobs:
-  build-test:
-    name: Build 
+  Deploy-Production:
     runs-on: ubuntu-latest
     steps:
-      - uses: act10ns/slack@v2
-        with:
-          status: starting
-          channel: '#workflows'
-          message: Starting Docker Build and Push...
-          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-        if: always()
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Deploy to Vercel Action
-        uses: BetaHuhn/deploy-to-vercel-action@latest
-        with:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - uses: actions/checkout@v2
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
       - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
