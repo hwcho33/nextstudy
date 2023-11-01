@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "echo build",
     "start": "echo start",
+    "lint": "echo lint",
     "tsc": "echo tsc",
     "prepare": "husky install"
   },
