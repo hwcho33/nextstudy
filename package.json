@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "echo build",
-    "start": "next start",
+    "start": "echo start",
     "tsc": "echo tsc",
     "prepare": "husky install"
   },
