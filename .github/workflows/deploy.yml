@@ -13,12 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Pnpm global
-        run: npm i -g pnpm
-      - name: Install Pnpm global
-        run: pnpm setup
-      - name: Install Dependencies
-        run: pnpm install 
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-versions: ${{ secrets.NODE_VERSION }}
+      - name: Setup Pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.0.2
       - name: Install Vercel CLI
         run: pnpm add -g vercel@latest
       - name: Pull Vercel Environment Information
