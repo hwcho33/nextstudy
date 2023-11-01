@@ -2,8 +2,6 @@
 
 name: "Test Before Merge"
 
-on: pull_request
-
 jobs:
   test:
     name: Lint, Type, Build Test
