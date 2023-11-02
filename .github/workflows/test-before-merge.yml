@@ -2,6 +2,10 @@
 
 name: "Test Before Merge"
 
+on:
+  push:
+    branches: [dev]
+
 jobs:
   test:
     name: Lint, Type, Build Test
