@@ -23,14 +23,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-
+      # Cache
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.json') }}
-          
+
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
