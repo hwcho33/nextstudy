@@ -26,7 +26,7 @@ jobs:
       #    if: steps.setup-node.outputs.cache-hit != 'true'
 
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        # if: steps.cache.outputs.cache-hit != 'true'
         run: |
           npm install -g pnpm
           pnpm install
