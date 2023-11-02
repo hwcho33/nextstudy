@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-versions: ${{ secrets.NODE_VERSION }}
-      - name: Setup Pnpm
+      - name: Setup Pnpm Environment
       - uses: pnpm/action-setup@v2
         with:
           version: 6.0.2
