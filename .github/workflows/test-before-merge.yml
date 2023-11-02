@@ -13,14 +13,20 @@ jobs:
         node-versions: [18.x]
     steps:
       - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2
+      - name: Cache pnpm
+        uses: actions/cache@v2
         with:
-          version: 8
+          path: ~/.pnpm-store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-${{ runner.os }}-
       
-      - name: Install Dependencies
-        run: |
-          pnpm install
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: pnpm install
           
       - name: Lint, Type, Build
         run: |
