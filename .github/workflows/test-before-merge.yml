@@ -16,14 +16,14 @@ jobs:
           node-versions: ${{ secrets.NODE_VERSION }}
 
       ## pnpm Cache
-      - name: Cache pnpm
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-          if: steps.setup-node.outputs.cache-hit != 'true'
+      #- name: Cache pnpm
+      #  uses: actions/cache@v2
+      #  with:
+      #    path: ~/.pnpm-store
+      #    key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-pnpm-
+      #    if: steps.setup-node.outputs.cache-hit != 'true'
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
