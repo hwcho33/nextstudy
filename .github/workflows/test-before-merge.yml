@@ -8,27 +8,25 @@ jobs:
   test:
     name: Lint, Type, Build Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-versions: [18.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-versions: ${{ secrets.NODE_VERSION }}
-
-      ## pnpm Cache
-      - name: Cache pnpm
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-          if: steps.setup-node.outputs.cache-hit != 'true'
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          npm install -g pnpm
           pnpm install
           
       - name: Lint, Type, Build
