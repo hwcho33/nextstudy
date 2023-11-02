@@ -2,43 +2,60 @@
 
 name: "Test Before Merge"
 
-on:
-  push:
-    branches: [dev]
+on: pull_request
 
 jobs:
   test:
     name: Lint, Type, Build Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-versions: [18.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-versions: ${{ secrets.NODE_VERSION }}
-      - name: Cache node modules
-        uses: actions/cache@v2
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      # Cache
+      - name: Cache dependencies
         id: cache
+        uses: actions/cache@v3
         with:
-          path: node_modules
-          key: npm-packages-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.json') }}
 
       - name: Install Dependencies
-        if: steps.cach.outputs.cache-hit != 'true'
-        run: npm install
-
-      - run: npm run lint
-        id: Lint 
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pnpm install
+          
+      - name: Lint, Type, Build
+        run: |
+          pnpm run lint
+          pnpm run tsc
         if: ${{ always() }}
+      
+      - name: Cache build
+        uses: actions/cache@v2
+        with:
+          path: ~/.next  # 빌드 캐시를 저장할 디렉토리 지정
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+          if: steps.setup-node.outputs.cache-hit != 'true'
 
-      - run: npm run tsc
-        id: Type
-        if: ${{ always() }}
+      - name: Build
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pnpm build
 
-      - run: npm run build
-        id: Build
-        if: ${{ always() }}
-        
       - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
