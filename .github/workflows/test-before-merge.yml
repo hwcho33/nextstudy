@@ -31,6 +31,15 @@ jobs:
           npm install -g pnpm
           pnpm install
 
+      - name: Cache build
+        uses: actions/cache@v2
+        with:
+          path: ~/.next  # 빌드 캐시를 저장할 디렉토리 지정
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+          if: steps.setup-node.outputs.cache-hit != 'true'
+          
       - name: Lint, Type, Build
         run: |
           pnpm run lint
