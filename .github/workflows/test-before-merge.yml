@@ -30,6 +30,8 @@ jobs:
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -41,20 +43,6 @@ jobs:
           pnpm run lint
           pnpm run tsc
         if: ${{ always() }}
-      
-      - name: Cache build
-        uses: actions/cache@v2
-        with:
-          path: ~/.next  # 빌드 캐시를 저장할 디렉토리 지정
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-          if: steps.setup-node.outputs.cache-hit != 'true'
-
-      - name: Build
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          pnpm build
 
       - uses: act10ns/slack@v2
         with:
