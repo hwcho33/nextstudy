@@ -30,7 +30,13 @@ jobs:
         run: |
           npm install -g pnpm
           pnpm install
-
+          
+      - name: Lint, Type, Build
+        run: |
+          pnpm run lint
+          pnpm run tsc
+        if: ${{ always() }}
+      
       - name: Cache build
         uses: actions/cache@v2
         with:
@@ -39,14 +45,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
           if: steps.setup-node.outputs.cache-hit != 'true'
-          
-      - name: Lint, Type, Build
+
+      - name: Build
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm run lint
-          pnpm run tsc
-          pnpm run build
-        if: ${{ always() }}
-        
+          pnpm build
+
       - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
