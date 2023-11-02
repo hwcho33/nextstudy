@@ -2,9 +2,7 @@
 
 name: "Test Before Merge"
 
-on:
-  push:
-    branches: [dev]
+on: pull_request
 
 jobs:
   test:
@@ -16,7 +14,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-versions: ${{ secrets.NODE_VERSION }}
-          
+
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
