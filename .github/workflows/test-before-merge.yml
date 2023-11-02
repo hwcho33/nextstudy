@@ -26,19 +26,15 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install -g pnpm
-        run: pnpm install
+        run: |
+          npm install -g pnpm
+          pnpm install
 
-      - run: pnpm run lint
-        id: Lint
-        if: ${{ always() }}
-
-      - run: pnpm run tsc
-        id: Type
-        if: ${{ always() }}
-
-      - run: pnpm run build
-        id: Build
+      - name: Lint, Type, Build
+        run: |
+          pnpm run lint
+          pnpm run tsc
+          pnpm run build
         if: ${{ always() }}
         
       - uses: act10ns/slack@v2
