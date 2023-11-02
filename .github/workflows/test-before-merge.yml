@@ -15,29 +15,29 @@ jobs:
         with:
           node-versions: ${{ secrets.NODE_VERSION }}
 
-      - name: Cache node_modules
+      - name: Cache pnpm
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-          # 변경된 package-lock.json 파일이나 package.json 파일이 있을 때만 캐시 업데이트 한다.
+            ${{ runner.os }}-pnpm-
           if: steps.setup-node.outputs.cache-hit != 'true'
 
       - name: Install Dependencies
-        if: steps.cach.outputs.cache-hit != 'true'
-        run: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install -g pnpm
+        run: pnpm install
 
-      - run: npm run lint
-        id: Lint 
+      - run: pnpm run lint
+        id: Lint
         if: ${{ always() }}
 
-      - run: npm run tsc
+      - run: pnpm run tsc
         id: Type
         if: ${{ always() }}
 
-      - run: npm run build
+      - run: pnpm run build
         id: Build
         if: ${{ always() }}
         
