@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      # Cache
+      # Cache Dependecies
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
