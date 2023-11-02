@@ -22,7 +22,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-          # 변경된 package-lock.json 파일이나 package.json 파일이 있을 때만 캐시 업데이트
+          # 변경된 package-lock.json 파일이나 package.json 파일이 있을 때만 캐시 업데이트 한다.
           if: steps.setup-node.outputs.cache-hit != 'true'
 
       - name: Install Dependencies
