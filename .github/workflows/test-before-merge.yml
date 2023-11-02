@@ -17,24 +17,8 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-      # Cache Dependecies
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
+      
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           pnpm install
           
