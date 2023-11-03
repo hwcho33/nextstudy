@@ -129,7 +129,7 @@ jobs:
       - name: Prepare Steps Info
         id: prepare-steps
         run: |
-          steps_info="{\"lint\": ${{ toJson(needs.lint.steps) }}, \"build\": ${{ toJson(needs.build.steps) }}}"
+          steps_info="\"lint\": ${{ toJson(needs.lint.steps) }}, \"build\": ${{ toJson(needs.build.steps) }}"
           echo "::set-output name=steps-info::$steps_info"
           
       - name: Notify Slack - All Jobs Completed
