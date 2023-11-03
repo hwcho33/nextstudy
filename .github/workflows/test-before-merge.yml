@@ -21,9 +21,9 @@ jobs:
       - uses: act10ns/slack@v2
         with:
           status: starting
-          channel: '#workflows'
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          message: Starting Develop Code Test for Merge into Main
+          message: "📣 Starting Develop Code Test for Merge into Main\n<${{ github.event.pull_request.html_url }}|View Pull Request>"
+          
         if: always()
       - name: Checkout
         uses: actions/checkout@v3

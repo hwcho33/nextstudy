@@ -1,5 +1,3 @@
-username: GitHub-CI
-
 pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{ref}} `{{diffRef}}`
 title: GitHub Actions
 title_link: https://support.github.com
@@ -21,7 +19,7 @@ fields:
   - title: 💼 Job Steps
     value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}"
     short: false
-  - title: "\n📝 Workflow"
+  - title: 📝 Workflow
     value: "<{{workflowUrl}}|{{workflow}}>"
     short: true
   - title: 🔎 Git Ref
