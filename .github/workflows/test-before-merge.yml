@@ -22,7 +22,7 @@ jobs:
         with:
           status: starting
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          message: "📣 Starting Develop Code Test for Merge into Main\n<${{ github.event.pull_request.html_url }}|View Pull Request>"
+          message: "📣 <${{ github.event.pull_request.html_url }}|Starting Develop Code Test for Merge into Main>\n"
           
         if: always()
       - name: Checkout
