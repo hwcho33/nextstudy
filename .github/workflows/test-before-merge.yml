@@ -131,11 +131,11 @@ jobs:
         run: |
           steps_info="{\"lint\": ${{ toJson(needs.lint.steps) }}, \"build\": ${{ toJson(needs.build.steps) }}"
           echo "::set-output name=steps-info::$steps_info"
-
+          
       - name: Notify Slack - All Jobs Completed
         uses: act10ns/slack@v2
         with:
-          status: ${{ steps.set-status.outputs.set-status }}
+          status: ${{ job.status }}
           steps: ${{ steps.prepare-steps.outputs.steps-info }}
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
           config: .github/config/slack.yml
