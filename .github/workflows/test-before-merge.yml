@@ -23,7 +23,7 @@ jobs:
           status: starting
           channel: '#workflows'
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          message: Starting Docker Build and Push...
+          message: Starting Develop Code Test for Merge into Main
         if: always()
       - name: Checkout
         uses: actions/checkout@v3
