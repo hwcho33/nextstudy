@@ -3,7 +3,7 @@
 
 BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
 
-# 색상 코드 정의
+# 색상 코드
 RED='\033[1;31m'
 GREEN='\033[1;32m'
 BOLD='\033[1m'
@@ -21,20 +21,17 @@ if [ "$BRANCH_NAME" = "develop"  ]; then
 
   # 빌드 스크립트 실행
   echo "${BOLD}Running build script...${RESET}"
-  pnpm build  # 또는 적절한 빌드 명령어
+  pnpm build
 
   if [ $? -eq 0 ]; then
     echo "${BLUE}Build successful. Pushing to develop...${RESET}"
     git push origin develop
-
+    if [ $? -eq 0 ]; then
+      echo "${BLUE}Push into Develop successful. ${RESET}"
+    else
+      echo "${RED}Push into develop Failed. ${RESET}"
+    fi
   else
-    echo "${RED}Build failed. Aborting the push to develop."
+    echo "${RED}Build failed. Aborting the push to develop.${RESET}"
   fi
-elif [ "$BRANCH_NAME" = "main" ]; then
-    # main 브렌치에 Merge 되었을때
-    echo "${BOLD}Develop merged into $BRANCH_NAME. Running automation...${RESET}"
-
-    echo "${BLUE}Automation for main branch push Complete.${RESET}"
-  else
-    echo "${RED}Push Failed. Aborting the push to develop${RESET}"
 fi

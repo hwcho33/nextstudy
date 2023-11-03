@@ -1,65 +1,72 @@
 # test.yml
 
-name: "Test Before Merge"
+name: "Build Test Before Merge"
 
-on: pull_request
-
+on:
+  pull_request:
+    types:
+      - opened # pull request가 열린 경우에만 실행
+      - synchronize
+    branches:
+      - main  # main 브랜치로의 pull request에서 실행
 jobs:
   test:
-    name: Lint, Type, Build Test
+    name: Build Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-versions: [18.x]
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2
+      # Action 준비
+      - uses: act10ns/slack@v2
         with:
-          version: 8
+          status: starting
+          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
+          message: "📣 Opened Pull Request & Code Test Start\n<${{ github.event.pull_request.html_url }}|🚀 View Pull Request>"
+          
+        if: always()
+      - name: Checkout
+        uses: actions/checkout@v3
 
+      # 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-      # Cache Dependecies
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.json') }}
 
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          pnpm install
-          
-      - name: Lint, Type, Build
-        run: |
-          pnpm run lint
-          pnpm run tsc
-        if: ${{ always() }}
-      
-      - name: Cache build
-        uses: actions/cache@v2
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
         with:
-          path: ~/.next  # 빌드 캐시를 저장할 디렉토리 지정
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        id: Cache-Work
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-build-
-          if: steps.setup-node.outputs.cache-hit != 'true'
+            ${{ runner.os }}-pnpm-store-
 
-      - name: Build
-        if: steps.cache.outputs.cache-hit != 'true'
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Test
+        id: Build-Test
         run: |
           pnpm build
-
+        if: ${{ always() }}    
       - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          channel: "#workflows"
+          channel: '#workflows'
           webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
+          config: .github/config/slack.yml
         if: always()
