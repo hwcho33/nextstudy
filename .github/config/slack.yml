@@ -6,7 +6,7 @@ title_link: https://support.github.com
 
 text: |
   *<{{workflowRunUrl}}|Workflow _{{workflow}}_ job _{{jobName}}_ triggered by _{{eventName}}_ is _{{jobStatus}}_>* 
-  for <{{refUrl}}|`{{ref}}`>
+  for 
   
   {{#if description}}<{{diffUrl}}|`{{diffRef}}`> - {{description}}{{/if}}
   {{#if payload.commits}}
@@ -27,7 +27,7 @@ fields:
     value: "<{{workflowUrl}}|{{workflow}}>"
     short: true
   - title: 🔎 Git Ref
-    value: "{{ref}} ({{refType}})"
+    value: "<{{refUrl}}|`{{ref}}`> ({{refType}})"
     short: true
   - title: 🧑‍💻 Actor
     value: "{{actor}}"
