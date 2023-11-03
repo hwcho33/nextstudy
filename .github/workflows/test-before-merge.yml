@@ -118,6 +118,14 @@ jobs:
       - build
 
     steps:
+      - name: Check Lint and Build Status
+        id: check-status
+        run: echo "Success" # 디폴트로 성공으로 설정
+
+      - name: Set Failed Status if Either Job Failed
+        if: failure() # lint 또는 build 중 하나라도 실패했을 때
+        run: echo "Failed"
+        
       - name: Notify Slack - All Jobs Completed
         uses: act10ns/slack@v2
         with:

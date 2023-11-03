@@ -7,7 +7,7 @@
     "build": "echo build",
     "start": "echo start",
     "lint": "echo lint",
-    "tsc": "echo tsc",
+    "typecheck": "echo tsc",
     "prepare": "husky install"
   },
   "dependencies": {
