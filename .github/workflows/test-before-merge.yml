@@ -5,7 +5,8 @@ name: "Build Test Before Merge"
 on:
   pull_request:
     types:
-      - [opened, synchronize]  # pull request가 열린 경우에만 실행
+      - opened # pull request가 열린 경우에만 실행
+      - synchronize
     branches:
       - main  # main 브랜치로의 pull request에서 실행
 jobs:
