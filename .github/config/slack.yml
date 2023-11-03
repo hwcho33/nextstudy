@@ -17,7 +17,7 @@ text: |
 fallback: |-
   [GitHub] {{workflow}} #{{runNumber}} {{jobName}} is {{jobStatus}}
 
-fields: |
+fields:
   - title: 💼 Job Steps
     value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}\n"
     short: false
