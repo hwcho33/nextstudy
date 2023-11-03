@@ -19,9 +19,9 @@ fallback: |-
 
 fields:
   - title: 💼 Job Steps
-    value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n\n{{/each}}"
+    value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}"
     short: false
-  - title: 📝 Workflow
+  - title: "\n📝 Workflow"
     value: "<{{workflowUrl}}|{{workflow}}>"
     short: true
   - title: 🔎 Git Ref
