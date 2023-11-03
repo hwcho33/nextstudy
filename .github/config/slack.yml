@@ -18,19 +18,19 @@ fallback: |-
   [GitHub] {{workflow}} #{{runNumber}} {{jobName}} is {{jobStatus}}
 
 fields: |
-  - title: "💼 Job Steps"
-    value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n\n{{/each}}"
+  - title: 💼 Job Steps
+    value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}\n"
     short: false
-  - title: "\n📝 Workflow"
+  - title: 📝 Workflow
     value: "<{{workflowUrl}}|{{workflow}}>"
     short: true
-  - title: "\n🔎 Git Ref"
+  - title: 🔎 Git Ref
     value: "<{{refUrl}}|`{{ref}}`> ({{refType}})"
     short: true
-  - title: "\n🧑‍💻 Actor"
+  - title: 🧑‍💻 Actor
     value: "{{actor}}"
     short: true
-  - title: "\n⛅ Job Status"
+  - title: ⛅ Job Status
     value: "{{jobStatus}}"
     short: true
 
