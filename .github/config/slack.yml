@@ -20,19 +20,19 @@ fallback: |-
   [GitHub] {{workflow}} #{{runNumber}} {{jobName}} is {{jobStatus}}
 
 fields:
-  - title: Job Steps
+  - title: "💼 Job Steps"
     value: "{{#each jobSteps}}{{icon this.outcome}} {{@key}}\n{{/each}}"
     short: false
-  - title: Workflow
+  - title: 📝 Workflow
     value: "<{{workflowUrl}}|{{workflow}}>"
     short: true
-  - title: Git Ref
+  - title: 🔎 Git Ref
     value: "{{ref}} ({{refType}})"
     short: true
-  - title: Actor
+  - title: 🧑‍💻 Actor
     value: "{{actor}}"
     short: true
-  - title: Job Status
+  - title: ⛅ Job Status
     value: "{{jobStatus}}"
     short: true
 
@@ -47,7 +47,7 @@ colors:
 
 icons:
   success: ':white_check_mark:'
-  failure: ':grimacing:'
+  failure: 'no_entry'
   cancelled: ':x:'
   skipped: ':heavy_minus_sign:'
   default: ':interrobang:'
