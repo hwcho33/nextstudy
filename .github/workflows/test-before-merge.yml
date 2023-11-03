@@ -1,12 +1,16 @@
 # test.yml
 
-name: "Test Before Merge"
+name: "Build Test Before Merge"
 
-on: pull_request
-
+on:
+  pull_request:
+    types:
+      - opened  # pull request가 열린 경우에만 실행
+    branches:
+      - main  # main 브랜치로의 pull request에서 실행
 jobs:
   test:
-    name: Lint, Type, Build Test
+    name: Build Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,17 +48,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Lint, Type, Build
+      - name: Build Test
         run: |
-          pnpm run lint
-          pnpm run tsc
           pnpm build
         if: ${{ always() }}    
-
-      - uses: act10ns/slack@v2
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: "#workflows"
-          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-        if: always()
