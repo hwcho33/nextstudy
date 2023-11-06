@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "echo build",
+    "build": "next build",
     "start": "echo start",
     "lint": "echo lint",
     "typecheck": "echo tsc",
