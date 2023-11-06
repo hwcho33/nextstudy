@@ -12,12 +12,15 @@ on:
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-versions: [18.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-versions: [18.x]
+          node-version: ${{ matrix.node-version }}
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
