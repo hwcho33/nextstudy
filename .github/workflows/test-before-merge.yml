@@ -65,7 +65,7 @@ jobs:
       - name: Build Test
         id: Build-Test
         run: |
-          pnpm build --if-present
+          pnpm build
         if: ${{ always() }}
 
       - uses: act10ns/slack@v2
