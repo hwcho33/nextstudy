@@ -19,16 +19,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
           version: 8
           run_install: false
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Get pnpm store directory
         shell: bash
@@ -37,12 +37,15 @@ jobs:
 
       - uses: actions/cache@v3
         name: Setup pnpm cache
-        id: cache
+        id: Cache-Work
         with:
-          path: ${{ env.STORE_PATH }}
-          key: v1-cli-${{ runner.os }}-${{ hashFiles('vercel.json') }}
+          path: |
+            ${{ env.STORE_PATH }}
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            v1-cli-${{ runner.os }}-
+            ${{ runner.os }}-pnpm-store-
+
 
       - name: Install Vercel CLI
         if: steps.cache.outputs.cache-hit != 'true'
