@@ -54,7 +54,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-            
+
       - name: Install dependencies
         run: pnpm install
 
@@ -70,8 +70,7 @@ jobs:
 
       - name: Build Test
         id: Build-Test
-        run: |
-          pnpm build
+        run: pnpm build
         if: ${{ always() }}
 
       - uses: act10ns/slack@v2
