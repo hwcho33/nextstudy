@@ -14,3 +14,6 @@ MERGE=$(cat $COMMIT_EDITMSG|grep -i 'merge'|wc -l)
 if [ $MERGE -eq 0 ] ; then
   addIssueNumber
 fi
+
+# MERGE 변수를 콘솔에 출력
+echo "MERGE variable value: $MERGE"
