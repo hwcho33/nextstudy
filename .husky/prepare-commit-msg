@@ -16,4 +16,4 @@ if [ $MERGE -eq 0 ] ; then
 fi
 
 # MERGE 변수를 콘솔에 출력
-echo "MERGE variable value: $MERGE"
+echo "MERGE variable value: $COMMIT_EDITMSG"
