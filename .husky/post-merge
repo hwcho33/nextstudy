@@ -16,6 +16,9 @@ echo "${YELLOW}====================================="
 echo "${YELLOW}$BRANCH_NAME"
 echo "${YELLOW}====================================="
 
+isMerge=$(git log -1 --merges --pretty=%B | grep -i 'merge' | wc -l)
+
+echo "isMERGE : $isMerge"
 if [ "$BRANCH_NAME" = "develop"  ]; then
   echo "${BOLD}Feature branch merged into $BRANCH_NAME. Running automation...${RESET}"
 
