@@ -56,7 +56,6 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        if: steps.Cache-Work.outputs.cache-hit != 'true'
         run: pnpm install
 
       - name: Lint Test
