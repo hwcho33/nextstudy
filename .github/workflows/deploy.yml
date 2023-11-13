@@ -12,9 +12,6 @@ on:
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-versions: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,10 +22,10 @@ jobs:
           version: 8
           run_install: false
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Use Node.js 18 version
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.12.1
 
       - name: Get pnpm store directory
         shell: bash
@@ -41,7 +38,6 @@ jobs:
         with:
           path: |
             ${{ env.STORE_PATH }}
-            ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -53,7 +49,18 @@ jobs:
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Cache Vercel build
+        uses: actions/cache@v3
+        id: Build-cache
+        with:
+          path: .vercel
+          key: ${{ runner.os }}-vercel-${{ hashFiles('vercel.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vercel-
+
       - name: Build Project Artifacts
+        if: steps.Build-cache.outputs.cache-hit != 'true'
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
