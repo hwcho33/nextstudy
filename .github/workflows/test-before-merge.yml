@@ -38,16 +38,17 @@ jobs:
 
       - uses: actions/cache@v3
         name: Setup pnpm cache
-        id: Cache-Work
+        id: cache
         with:
           path: |
-            ${{ env.STORE_PATH }}
+            node_modules
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: cache-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            cache-
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install
 
       - name: Lint Test
