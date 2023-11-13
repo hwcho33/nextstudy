@@ -13,6 +13,9 @@ jobs:
   test:
     name: Build Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-versions: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,10 +26,10 @@ jobs:
           version: 8
           run_install: false
 
-      - name: Use Node.js ${{ secrets.NODE_VERSION }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ secrets.NODE_VERSION }}
+          node-version: ${{ matrix.node-version }}
 
       #- name: Get pnpm store directory
       #  shell: bash
@@ -61,3 +64,4 @@ jobs:
         id: Build-Test
         run: pnpm build
         if: ${{ always() }}
+
