@@ -15,16 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-versions: [18.x]
+        node-versions: ${{ secrets.NODE_VERSION }}
     steps:
-      # Action 준비
-      - uses: act10ns/slack@v2
-        with:
-          status: starting
-          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          message: "📣 Opened Pull Request & Build Test Start\n<${{ github.event.pull_request.html_url }}|🚀 View Pull Request>"
-        if: always()
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -39,10 +31,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      #- name: Get pnpm store directory
+      #  shell: bash
+      #  run: |
+      #    echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       #- uses: actions/cache@v3
       #  name: Setup pnpm cache
@@ -72,12 +64,3 @@ jobs:
         id: Build-Test
         run: pnpm build
         if: ${{ always() }}
-
-      - uses: act10ns/slack@v2
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: "#workflows"
-          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          config: .github/config/slack.yml
-        if: always()
