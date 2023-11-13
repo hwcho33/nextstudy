@@ -12,9 +12,6 @@ on:
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-versions: 18
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,10 +22,10 @@ jobs:
           version: 8
           run_install: false
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18 version
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.12.1
 
       - name: Get pnpm store directory
         shell: bash
