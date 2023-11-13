@@ -37,15 +37,20 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
       - uses: actions/cache@v3
-        name: Setup node_modules cache
+        name: Setup pnpm cache
         id: Cache-Work
         with:
           path: |
-            node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+            ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node_modules-
+            ${{ runner.os }}-pnpm-store-
       #- name: Get pnpm store directory
       #  shell: bash
       #  run: |
