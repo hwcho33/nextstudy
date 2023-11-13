@@ -41,7 +41,6 @@ jobs:
         with:
           path: |
             ${{ env.STORE_PATH }}
-            ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -53,7 +52,18 @@ jobs:
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Cache Vercel build
+        uses: actions/cache@v2
+        id: Build-cache
+        with:
+          path: .vercel
+          key: ${{ runner.os }}-vercel-${{ hashFiles('vercel.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vercel-
+
       - name: Build Project Artifacts
+        if: steps.Build-cache.outputs.cache-hit != 'true'
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
