@@ -65,7 +65,7 @@ jobs:
         id: Get-Vercel-Environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      # 프로젝트 아티팩트를 빌드하는 아홉 번째 단계입니다.
+      # 프로젝트 아티팩트를 빌드하는 아홉 번째 단계입니다.1
       - name: Cache Vercel build
         uses: actions/cache@v3
         id: Build-cache
