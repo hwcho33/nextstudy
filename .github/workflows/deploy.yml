@@ -44,16 +44,6 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      # pnpm 캐시를 설정하는 여섯 번째 단계입니다. 이전에 저장된 캐시가 있다면 사용합니다.
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        id: Pnpm-cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: v1-cli-pnpm-store-${{ hashFiles('vercel.json') }}
-          restore-keys: |
-            v1-cli-pnpm-store-
-
       # Vercel CLI를 설치하는 일곱 번째 단계입니다. 이전에 캐시된 내용이 없을 때만 설치합니다.
       - name: Install Vercel CLI
         id: Install-vercel
@@ -64,16 +54,6 @@ jobs:
       - name: Pull Vercel Environment Information
         id: Get-Vercel-Environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      # 프로젝트 아티팩트를 빌드하는 아홉 번째 단계입니다.1
-      - name: Cache Vercel build
-        uses: actions/cache@v3
-        id: Build-cache
-        with:
-          path: .vercel
-          key: vercel-${{ hashFiles('vercel.json') }}
-          restore-keys: |
-            vercel-
 
       - name: Build Project Artifacts
         id: Vercel-Build
