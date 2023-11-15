@@ -75,7 +75,6 @@ jobs:
         if: steps.Pnpm-cache.outputs.cache-hit != 'true'
         run: pnpm install
 
-      # Lint Test 진행 합니다.
       # if 문에 always() 를 추가하면 이전에 실패한 부분이 생기더라도 무조건 실행하게 됩니다.
       - name: Lint Test
         id: Lint-Test
