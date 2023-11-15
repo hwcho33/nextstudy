@@ -8,11 +8,18 @@
     "start": "echo start",
     "lint": "echo lint",
     "typecheck": "echo tsc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --cache --fix",
+      "bash -c tsc --noEmit"
+    ]
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.1.3",
-    "axios": "^1.6.0",
+    "axios": "^1.6.1",
     "bcrypt": "^5.1.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
@@ -33,6 +40,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
+    "lint-staged": "^15.0.2",
     "prettier": "^2.8.8",
     "typescript": "5.0.4"
   }

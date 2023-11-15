@@ -16,22 +16,27 @@ echo "${YELLOW}====================================="
 echo "${YELLOW}$BRANCH_NAME"
 echo "${YELLOW}====================================="
 
+isMerge=$(git log -1 --merges --pretty=%B | grep -i 'merge' | wc -l)
+
+echo "isMERGE : $isMerge"
 if [ "$BRANCH_NAME" = "develop"  ]; then
   echo "${BOLD}Feature branch merged into $BRANCH_NAME. Running automation...${RESET}"
 
   # 빌드 스크립트 실행
   echo "${BOLD}Running build script...${RESET}"
-  pnpm build
-
-  if [ $? -eq 0 ]; then
-    echo "${BLUE}Build successful. Pushing to develop...${RESET}"
-    git push origin develop
-    if [ $? -eq 0 ]; then
-      echo "${BLUE}Push into Develop successful. ${RESET}"
-    else
-      echo "${RED}Push into develop Failed. ${RESET}"
-    fi
+  if [ $isMerge -gt 0 ]; then
+    pnpm build
+  
   else
-    echo "${RED}Build failed. Aborting the push to develop.${RESET}"
-  fi
+    if [ $? -eq 0 ]; then
+      echo "${BLUE}Build successful. Pushing to develop...${RESET}"
+      git push origin develop
+      if [ $? -eq 0 ]; then
+        echo "${BLUE}Push into Develop successful. ${RESET}"
+      else
+        echo "${RED}Push into develop Failed. ${RESET}"
+      fi
+    else
+      echo "${RED}Build failed. Aborting the push to develop.${RESET}"
+    fi
 fi
