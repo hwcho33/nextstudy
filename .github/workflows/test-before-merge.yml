@@ -17,13 +17,7 @@ on:
 
 jobs:
   test:
-<<<<<<< HEAD
-    # job 의 이름을 지정합니다.
-    name: Build Test
-    # 리눅스 환경에서 사용한다고 명시합니다.
-=======
     name: Test && Reporting
->>>>>>> 204b7791207f924cb490070b4c2289e77024007f
     runs-on: ubuntu-latest
     # Github Action 의 실행전략을 새웁니다.
     # Node Version 을 설치할때 18 버전을 사용하도록 합니다.
@@ -32,25 +26,9 @@ jobs:
         node-versions: [18.x]
     # job 의 step 을 정의합니다.
     steps:
-<<<<<<< HEAD
-      # Action 준비
-      - uses: act10ns/slack@v2
-        with:
-          status: starting
-          webhook-url: ${{ secrets.SLACK_INCOMING_URL }}
-          message: "📣 Opened Pull Request & Build Test Start\n<${{ github.event.pull_request.html_url }}|🚀 View Pull Request>"
-        if: always()
-
-      # 이제 시작에 앞서서 Github Actions 에서 우리는 Linux 환경으로 Checkout 하여 실행하게됩니다.
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 위 에서 명시한 node-version 을 활용하여 Node.js 를 설치 후 그 위에서 진행한다고 명시합니다.
-=======
-      - name: Checkout
-        uses: actions/checkout@v3
-
->>>>>>> 204b7791207f924cb490070b4c2289e77024007f
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -102,4 +80,3 @@ jobs:
         id: Build-Test
         run: pnpm build
         if: ${{ always() }}
-
