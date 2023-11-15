@@ -67,9 +67,9 @@ jobs:
           path: |
             node_modules
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            pnpm-store-
 
       - name: Install dependencies
         if: steps.Pnpm-cache.outputs.cache-hit != 'true'
