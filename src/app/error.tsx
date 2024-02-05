@@ -3,7 +3,7 @@
 const Error = () => {
   return (
     <div>
-      <button>버튼</button>
+      <button>버튼11</button>
     </div>
   )
 }
